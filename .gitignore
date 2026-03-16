@@ -1,0 +1,16 @@
+# Build output
+tflint-ruleset-trusty
+dist/
+
+# Go
+*.test
+*.out
+vendor/
+
+# macOS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+*.swp
