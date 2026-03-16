@@ -8,10 +8,13 @@ test:
 build:
 	go build
 
+PLUGIN_VERSION := $(shell grep 'Version\s*=' project/main.go | sed 's/.*"\(.*\)".*/\1/')
+PLUGIN_DIR     := $(HOME)/.tflint.d/plugins/github.com/phazeight/tflint-ruleset-trusty/$(PLUGIN_VERSION)
+
 .PHONY: install
 install: build
-	@mkdir -p ~/.tflint.d/plugins
-	mv ./tflint-ruleset-trusty ~/.tflint.d/plugins/tflint-ruleset-trusty
+	@mkdir -p $(PLUGIN_DIR)
+	mv ./tflint-ruleset-trusty $(PLUGIN_DIR)/tflint-ruleset-trusty
 
 .PHONY: snapshot
 snapshot:
