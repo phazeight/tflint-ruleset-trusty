@@ -4,13 +4,36 @@ Custom tflint plugin for `trusty_terraform` linting rules.
 
 ## Setup
 
-This directory contains the scaffolded source for the
-`phazeight/tflint-ruleset-trusty` Go plugin. To use it:
+```bash
+go mod tidy    # resolve all dependencies
+make test      # run tests
+make install   # build and install locally
+```
 
-1. Copy this directory into a new `phazeight/tflint-ruleset-trusty` repository
-2. Run `go mod tidy` to resolve all dependencies
-3. Run `make test` to verify rules pass
-4. Run `make install` to build and install locally
+## Testing
+
+```bash
+go test ./...        # run all tests
+go test ./rules/...  # run rule tests only
+go test -v ./...     # verbose output
+```
+
+Tests live alongside the code they cover (`<package>/*_test.go`). Every
+package has coverage:
+
+| Package | What is tested |
+|---------|----------------|
+| `main` | Plugin wiring — name, version, and rule registry are non-empty |
+| `config` | `New()` returns 150 resources with no duplicates; spot-checks key values |
+| `custom` | `parseConfigResource` — flat keys, dot-notation nesting, error on inconsistent prefix |
+| `node` | `WrapAttribute` / `WrapBlock` interface methods; `OrderedInspectableNodesFrom` source-position ordering |
+| `project` | `RuleName` formatting; `ReferenceLink` URL construction |
+| `rules` | `trusty_key_attributes` rule — correct/incorrect ordering, `for_each` skip, data blocks, multi-file, non-custom runner no-op |
+| `visit` | `Files` and `Blocks` iterators — multi-file traversal, visitor error propagation, nested block isolation |
+
+The rule tests use `helper.TestRunner` from `tflint-plugin-sdk`, wrapped in
+`custom.NewRunner`, so they exercise the full check path against real HCL
+without needing a running tflint process.
 
 ## Usage
 
