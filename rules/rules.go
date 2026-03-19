@@ -8,5 +8,7 @@ import (
 func All() []tflint.Rule {
 	return []tflint.Rule{
 		NewKeyAttributesRule(),
+		NewVariableLocationRule(),
+		NewVariableOrderRule(),
 	}
 }
