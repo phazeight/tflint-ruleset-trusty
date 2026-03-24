@@ -4,9 +4,9 @@ Custom tflint plugin for `trusty_terraform` linting rules.
 
 ## Repo Purpose
 
-A Go-based tflint plugin built on `tflint-plugin-sdk`. Currently implements
-one rule (`trusty_key_attributes`) that enforces key-attribute ordering on
-Terraform resource blocks.
+A Go-based tflint plugin built on `tflint-plugin-sdk`. Enforces Trusty
+Terraform conventions for resource key-attribute ordering, variable file
+placement, variable alphabetical sorting, and variable field ordering.
 
 ## Package Structure
 
@@ -25,7 +25,35 @@ node/
 visit/main.go        File and block iteration helpers
 rules/
   rules.go           Rule registry (All())
-  rule_key_attributes.go  Key-attribute ordering enforcement
+  rule_key_attributes.go      Key-attribute ordering enforcement
+  rule_variable_location.go   Variables must live in inputs.tf
+  rule_variable_order.go      Variables sorted A-Z by name
+  rule_variable_field_order.go  Fields ordered: type, default, description
+```
+
+## Trusty Rules
+
+| Rule | What it enforces |
+|------|-----------------|
+| `trusty_key_attributes` | Key-attribute ordering on resource blocks |
+| `trusty_variable_location` | All `variable` blocks must live in `inputs.tf` |
+| `trusty_variable_order` | Variables in `inputs.tf` sorted A-Z by name |
+| `trusty_variable_field_order` | Fields within a variable block: `type`, `default`, `description` |
+
+### Variable block convention
+
+```hcl
+# inputs.tf — variables sorted A-Z, fields in type/default/description order
+variable "force_delete" {
+  type        = bool
+  default     = false
+  description = "If true, will delete the repository even if it contains images."
+}
+
+variable "name" {
+  type        = string
+  description = "Name of the Repo"
+}
 ```
 
 ## Adding a New Rule
