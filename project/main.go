@@ -7,7 +7,7 @@ const (
 	Name = "trusty"
 
 	// Version is the version of the plugin.
-	Version = "0.1.0"
+	Version = "0.2.0"
 )
 
 // RuleName returns the full rule name with the plugin prefix.
