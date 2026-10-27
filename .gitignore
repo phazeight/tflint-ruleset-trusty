@@ -1,16 +1,8 @@
-# Build output
-tflint-ruleset-trusty
 dist/
+tflint-ruleset-trusty
 
-# Go
-*.test
-*.out
-vendor/
-
-# macOS
-.DS_Store
-
-# Editor
-.idea/
-.vscode/
-*.swp
+# lb cache (SQLite)
+.lb/cache.db
+.lb/cache.db-shm
+.lb/cache.db-wal
+tflint-ruleset-trusty

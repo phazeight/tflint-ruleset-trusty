@@ -1,8 +1,11 @@
 version: 2
 
+before:
+  hooks:
+    - go mod tidy
+
 builds:
-  - binary: tflint-ruleset-trusty
-    env:
+  - env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -11,24 +14,17 @@ builds:
     goarch:
       - amd64
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    binary: tflint-ruleset-trusty
 
 archives:
   - format: zip
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
 
 checksum:
-  name_template: checksums.txt
-
-signs:
-  - artifacts: checksum
-    args:
-      - "--batch"
-      - "--local-user"
-      - "{{ .Env.GPG_FINGERPRINT }}"
-      - "--output"
-      - "${signature}"
-      - "--detach-sign"
-      - "${artifact}"
+  name_template: "checksums.txt"
 
 release:
   draft: false
